@@ -1,6 +1,9 @@
 <template>
   <section>
     <h1>Communities</h1>
+    <p>
+      Nothing has been seen by any of your bots, add a bot and come back later.
+    </p>
   </section>
 </template>
 

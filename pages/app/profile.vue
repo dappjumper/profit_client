@@ -1,6 +1,7 @@
 <template>
   <section>
     <h1>Profile</h1>
+    <pre>{{user}}</pre>
     <v-btn color="red" dark @click="forgetUser(); $router.push('/login')">Log out</v-btn>
   </section>
 </template>

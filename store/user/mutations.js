@@ -9,6 +9,16 @@ export function setUser (state, payload) {
   state.isLoggedIn = true
 }
 
+export function updateUser (state, payload) {
+  state.user = payload
+  localStorage.setItem(USER_POINTER, JSON.stringify(payload))
+}
+
+export function addBot(state, payload) {
+  if(state.user.bots.indexOf(payload) > -1) return false
+  state.user.bots.push(payload) 
+}
+
 export function forgetUser (state) {
   state.user = null
   state.token = null

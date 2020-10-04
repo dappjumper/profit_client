@@ -50,7 +50,7 @@
       </v-main>
     </div>
     <div v-else>
-      Loading...
+      {{ status }}
     </div>
   </v-app>
 </template>
@@ -69,14 +69,15 @@ export default {
     Error
   },
   data: () => ({
-    ready: false
+    ready: false,
+    status: 'Logging in...'
   }),
   computed: {
     ...mapState('user', ['isLoggedIn', 'user', 'token'])
   },
   methods: {
     ...mapActions('user', ['tryJWT']),
-    ...mapMutations('user', ['loadUser', 'setUser', 'forgetUser']),
+    ...mapMutations('user', ['loadUser', 'setUser', 'updateUser', 'forgetUser']),
     returnToLogin () {
       this.$router.push('/login')
     }
@@ -99,9 +100,11 @@ export default {
         this.forgetUser()
         return this.returnToLogin()
       }
+      this.updateUser(result.data.data)
       this.ready = true
     })
     .catch((error)=>{
+      this.forgetUser()
       return this.returnToLogin()
     })
   }
