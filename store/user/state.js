@@ -1,6 +1,6 @@
 export default function () {
   return {
-    baseURL: 'http://localhost:8000',
+    baseURL: process.env.API_URL || 'http://localhost:8000',
     isLoggedIn: false,
     user: null,
     token: null

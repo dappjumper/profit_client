@@ -76,15 +76,6 @@
             this.errorString = e
           })
       },
-      validate () {
-        return this.$refs.form.validate()
-      },
-      reset () {
-        return this.$refs.form.reset()
-      },
-      resetValidation () {
-        return this.$refs.form.resetValidation()
-      },
     },
   }
 </script>

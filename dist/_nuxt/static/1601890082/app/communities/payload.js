@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/app/communities", {data:[{}],fetch:[],mutations:[]});
