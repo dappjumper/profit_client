@@ -78,6 +78,7 @@ export default {
   methods: {
     ...mapActions('user', ['tryJWT']),
     ...mapMutations('user', ['loadUser', 'setUser', 'updateUser', 'forgetUser']),
+    ...mapMutations('bots', ['loadCache']),
     returnToLogin () {
       this.$router.push('/login')
     }
@@ -88,7 +89,8 @@ export default {
       this.ready = true
     }
   },
-  mounted () {
+  beforeMount () {
+    this.loadCache()
     this.loadUser()
     if(!this.token) return this.returnToLogin()
     if(this.isLoggedIn) return this.ready = true // No need to try the JWT after a successful login/registration
