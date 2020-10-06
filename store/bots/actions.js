@@ -14,11 +14,9 @@ export function api (context, payload) {
   if(payload.cacheId) { //If cacheId = true, return cache data in promise form if not stale (configurable with expiryInMinutes param)
     if(!isStaleData(context, payload.cacheId)) {
       return new Promise((resolve, reject) => {
-        console.log('using cached data')
         resolve(context.state.cache[payload.cacheId].data)
       })
     }
-    console.log('Fetching new data')
   }
   let token = context.rootState.user.token
   let baseURL = context.rootState.user.baseURL

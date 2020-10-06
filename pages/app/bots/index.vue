@@ -4,12 +4,7 @@
     <v-list
       class="pt-0 pb-0"
     >
-      <v-list-item link :key="bot" :to="'/app/bots/'+bot" v-for="bot in user.bots">
-        <v-list-item-icon>
-          <v-icon>mdi-robot</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{bot}}</v-list-item-title>
-      </v-list-item>
+      <BotListItem :key="bot" :botID="bot" v-for="bot in user.bots"/>
     </v-list>
     <AddBotForm />
   </section>
@@ -19,12 +14,14 @@
 
   import { mapMutations, mapState } from 'vuex'
   import AddBotForm from './../../../components/AddBotForm'
+  import BotListItem from './../../../components/BotListItem'
 
   export default {
     name: 'DashBots',
     layout: 'app',
     components: {
-      AddBotForm
+      AddBotForm,
+      BotListItem
     },
     computed: {
       ...mapState('user',['user'])

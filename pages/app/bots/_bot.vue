@@ -17,50 +17,14 @@
 </template>
 
 <script>
+import { botLogic } from './../../../mixins/botLogic'
 
-  import { mapMutations, mapState, mapActions } from 'vuex'
-
-  export default {
-    name: 'DashBot',
-    layout: 'app',
-    components: {},
-    computed: {
-      ...mapState('user',['user']),
-      id () {
-        return this.$route.params.bot
-      }
-    },
-    data () {
-      return {
-        bot: {},
-        ready: false,
-        error: false,
-        errorString: ''
-      }
-    },
-    mounted () {
-      this.api({
-        bot_id: this.id,
-        url: '',
-        method: 'get',
-        cacheId: 'bot_'+this.id
-      })
-        .then((result)=>{
-          console.log(result)
-          this.bot = result
-        })
-        .catch((err)=>{
-          this.error = true
-          this.errorString = err
-          this.removeBot(this.id)
-        })
-        .finally(()=>{
-          this.ready = true
-        })
-    },
-    methods: {
-      ...mapActions('bots', ['api']),
-      ...mapMutations('user', ['removeBot'])
-    }
+export default {
+  name: 'BotDetailPage',
+  layout: 'app',
+  mixins: [botLogic],
+  mounted () {
+    this.loadBot(this.$route.params.bot)
   }
+}
 </script>
