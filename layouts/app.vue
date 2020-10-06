@@ -95,7 +95,8 @@ export default {
     if(!this.token) return this.returnToLogin()
     if(this.isLoggedIn) return this.ready = true // No need to try the JWT after a successful login/registration
     this.tryJWT({
-      url: 'user/me'
+      url: 'user/me',
+      method: 'get'
     })
     .then((result)=>{
       if (!result.data.ok) {

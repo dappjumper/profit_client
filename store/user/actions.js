@@ -21,7 +21,7 @@ export function tryJWT (context, payload) {
         'Authorization': `Bearer: ${context.state.token}`
       }
     }
-    this.$axios[payload.data ? payload.method || 'post' : 'get'](`${context.state.baseURL}/${payload.url}`, (payload.data ? payload.data : options), options)
+    this.$axios[payload.method](`${context.state.baseURL}/${payload.url}`, (payload.data ? payload.data : options), options)
       .then(function (response) {
         if(!response.data) return reject('No data returned')
         if(!response.data.ok) return reject(response.data.error)

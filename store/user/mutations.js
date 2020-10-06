@@ -19,7 +19,7 @@ export function addBot(state, payload) {
   state.user.bots.push(payload) 
 }
 
-export function removeBot(state, bot_id) {
+export function unlistBot(state, bot_id) {
   if(state.user.bots.indexOf(bot_id) === -1) return false
   state.user.bots.splice(state.user.bots.indexOf(bot_id), 1)
 }

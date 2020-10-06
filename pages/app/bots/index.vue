@@ -1,13 +1,20 @@
 <template>
-  <section>
-    <h1>Bots</h1>
-    <v-list
-      class="pt-0 pb-0"
-    >
-      <BotListItem :key="bot" :botID="bot" v-for="bot in user.bots"/>
-    </v-list>
-    <AddBotForm />
-  </section>
+  <v-container>
+        <v-row dense>
+          <v-col
+            cols="12"
+          >
+            <BotListItem :botID="bot" :key="bot" v-for="bot in user.bots" />
+          </v-col>
+        </v-row>
+        <v-row dense>
+          <v-col>
+            <h2>Add bot</h2>
+            <AddBotForm />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
 </template>
 
 <script>

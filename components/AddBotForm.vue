@@ -52,7 +52,7 @@
       ...mapMutations('user', ['addBot']),
       ...mapActions('user', ['tryJWT']),
       submit () {
-        if(!this.validate()) return false
+        if(!this.$refs.form.validate()) return false
         this.loading = true
         this.tryJWT({
           url: 'user/bot',
@@ -68,7 +68,8 @@
               return this.errorString = result.data.error
             }
             this.addBot(result.data.bot_id)
-            //this.$router.push(`/app/bot/${result.data.bot_id}`)
+            this.$refs.form.reset()
+            //this.$router.push(`/app/bots/${result.data.bot_id}`)
           })
           .catch((e)=>{
             this.loading = false

@@ -42,3 +42,31 @@ export function api (context, payload) {
       })
   })
 }
+
+export function t_api (context, payload) {
+  if(payload.cacheId) { //If cacheId = true, return cache data in promise form if not stale (configurable with expiryInMinutes param)
+    if(!isStaleData(context, payload.cacheId)) {
+      console.log('Serving cached content', payload.cacheId)
+      return new Promise((resolve, reject) => {
+        resolve(context.state.cache[payload.cacheId].data)
+      })
+    }
+  }
+  let token = payload.token
+  let baseURL = `https://api.telegram.org/bot${payload.token}`
+  return new Promise((resolve, reject) => {
+    this.$axios[payload.data ? payload.method || 'post' : 'get'](`${baseURL}/${payload.url}`, payload.data)
+      .then((response) => {
+        if(!response.data) return reject('No data returned')
+        if(!response.data.ok) return reject(response.data.error)
+        if(payload.cacheId) {
+          // Save to cache
+          context.commit('saveToCache', {index: payload.cacheId, data: response.data.result})
+        }
+        resolve(response.data.result)
+      })
+      .catch(function (error) {
+        reject(error)
+      })
+  })
+}
