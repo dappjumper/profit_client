@@ -35,7 +35,7 @@ export function api (context, payload) {
           // Save to cache
           context.commit('saveToCache', {index: payload.cacheId, data: response.data.data})
         }
-        resolve(response.data.data)
+        resolve(response.data.data || response.data)
       })
       .catch(function (error) {
         reject(error)

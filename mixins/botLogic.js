@@ -26,6 +26,7 @@ export const botLogic = {
     ...mapActions('bots', ['api', 't_api']),
     ...mapActions('user', ['tryJWT']),
     ...mapMutations('user', ['unlistBot']),
+    ...mapMutations('bots', ['updateBot']),
     removeBot (botID, redirect) {
       this.ready = false
       this.tryJWT({
@@ -58,6 +59,34 @@ export const botLogic = {
         this.errorString = err
         if(this.$route.path === '/app/bots') return this.removeBot(botID)
         this.$router.push('/app/bots')
+      })
+      .finally(()=>{
+        this.ready = true
+      })
+    },
+    toggleActivation (botID) {
+      this.ready = false
+      this.api({
+        bot_id: botID,
+        url: 'activation',
+        method: 'patch',
+        data: {
+          state: !this.bot.active
+        }
+      })
+      .then((result)=>{
+        if(typeof result.state === 'undefined') return false
+        this.updateBot({
+          bot: this.bot,
+          cacheId: 'bot_'+botID,
+          data: {
+            active: result.state
+          }
+        })
+      })
+      .catch((err)=>{
+        this.error = true
+        this.errorString = err
       })
       .finally(()=>{
         this.ready = true

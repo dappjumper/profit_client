@@ -41,6 +41,7 @@
             outlined
             rounded
             small
+            @click="toggleActivation(botID)"
             :color="bot.active ? 'red' : 'green'"
           >
             <v-icon class="mr-2">{{bot.active ? 'mdi-pause-circle' : 'mdi-play-circle'}}</v-icon>
