@@ -12,9 +12,10 @@
         ></v-card-title>
 
         <v-card-subtitle v-text="ready ? '@'+bot.t_info.username : 'Loading...'"></v-card-subtitle>
+        <v-card-subtitle v-text="ready ? bot.active ? 'Active. Ready for action.' : 'De-activated. Idle.' : 'Loading...'"></v-card-subtitle>
         <v-card-actions v-if="ready">
           <v-btn
-            class="mt-4 ml-2"
+            class="mt-4 ml-2 pr-3"
             outlined
             rounded
             small
@@ -25,7 +26,7 @@
             Settings
           </v-btn>
           <v-btn
-            class="mt-4 ml-2"
+            class="mt-4 ml-2 pr-3"
             outlined
             rounded
             small
@@ -36,7 +37,17 @@
             Message
           </v-btn>
           <v-btn
-            class="mt-4 ml-2"
+            class="mt-4 ml-2 pr-3"
+            outlined
+            rounded
+            small
+            :color="bot.active ? 'red' : 'green'"
+          >
+            <v-icon class="mr-2">{{bot.active ? 'mdi-pause-circle' : 'mdi-play-circle'}}</v-icon>
+            {{bot.active ? 'De-activate' : 'Activate'}}
+          </v-btn>
+          <v-btn
+            class="mt-4 ml-2 pr-3"
             outlined
             rounded
             small
