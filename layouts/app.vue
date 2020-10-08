@@ -57,6 +57,8 @@
 
 <script>
 
+import api from './../dry/api.js'
+import cache from './../dry/cache.js'
 import { mapState, mapMutations, mapActions } from 'vuex'
 import AccessForm from './../components/AccessForm'
 import Error from './error'
@@ -90,26 +92,36 @@ export default {
     }
   },
   beforeMount () {
-    this.loadCache()
     this.loadUser()
     if(!this.token) return this.returnToLogin()
-    if(this.isLoggedIn) return this.ready = true // No need to try the JWT after a successful login/registration
-    this.tryJWT({
-      url: 'user/me',
-      method: 'get'
-    })
-    .then((result)=>{
-      if (!result.data.ok) {
+    cache.boot()
+    if(this.isLoggedIn) {
+      api.boot({
+        handler: this.$axios,
+        token: this.token
+      })
+    } else {
+      this.tryJWT({
+        url: 'user/me',
+        method: 'get'
+      })
+      .then((result)=>{
+        if (!result.data.ok) {
+          this.forgetUser()
+          return this.returnToLogin()
+        }
+        this.updateUser(result.data.data)
+        api.boot({
+          handler: this.$axios,
+          token: this.token
+        })
+        this.ready = true
+      })
+      .catch((error)=>{
         this.forgetUser()
         return this.returnToLogin()
-      }
-      this.updateUser(result.data.data)
-      this.ready = true
-    })
-    .catch((error)=>{
-      this.forgetUser()
-      return this.returnToLogin()
-    })
+      })
+    }
   }
 }
 </script>

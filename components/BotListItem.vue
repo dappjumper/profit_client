@@ -6,6 +6,13 @@
   >
     <div class="d-flex flex-no-wrap justify-space-between">
       <div>
+        {{ botID }}
+        <pre v-if="ready">
+          {{ bot }}
+        </pre>
+        <pre v-else>Loading...</pre>
+      </div>
+      <!--<div>
         <v-card-title
           class="headline"
           v-text="ready ? bot.t_info.first_name : 'Loading...'"
@@ -69,6 +76,7 @@
       >
         <v-img :src="bot_avatar"></v-img>
       </v-avatar>
+    -->
     </div>
   </v-card>
 </template>

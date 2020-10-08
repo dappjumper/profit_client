@@ -1,5 +1,8 @@
 import { mapActions, mapMutations, mapState } from 'vuex'
 
+import cache from './../dry/cache.js'
+import api from './../dry/api.js'
+
 export const botLogic = {
   computed: {
     ...mapState('user',['user'])
@@ -13,22 +16,13 @@ export const botLogic = {
       errorString: ''
     }
   },
-  watch: {
-    ready (isReady) {
-      if(!isReady && !this.bot) return false
-      this.loadBotAvatar({
-        bot_id: this.bot.t_info.id,
-        token: this.bot.t_info.token
-      })
-    }
-  },
   methods: {
     ...mapActions('bots', ['api', 't_api']),
     ...mapActions('user', ['tryJWT']),
     ...mapMutations('user', ['unlistBot']),
     ...mapMutations('bots', ['updateBot']),
     removeBot (botID, redirect) {
-      this.ready = false
+      /*this.ready = false
       this.tryJWT({
         url: 'user/bot/'+this.bot._id,
         method: 'delete'
@@ -43,28 +37,31 @@ export const botLogic = {
       .catch((error)=>{
         this.$router.push('/app/bots')
       })
+      */
     },
     loadBot (botID) {
-      this.api({
-        bot_id: botID,
-        url: '',
-        method: 'get',
-        cacheId: 'bot_'+botID
+      const cachedBot = cache.load('bot', botID, 1)
+      if (cachedBot) {
+        console.log('Using cached bot')
+        this.bot = cachedBot
+        return this.ready = true
+      }
+      console.log('Getting bot data')
+      api.bot({
+        botID: botID,
+        method: 'get'
       })
       .then((result)=>{
+        cache.save('bot', botID, result)
         this.bot = result
-      })
-      .catch((err)=>{
-        this.error = true
-        this.errorString = err
-        if(this.$route.path === '/app/bots') return this.removeBot(botID)
-        this.$router.push('/app/bots')
-      })
-      .finally(()=>{
         this.ready = true
+      })
+      .catch((error)=>{
+        console.log('Failed getting bot information', error)
       })
     },
     toggleActivation (botID) {
+      /*
       this.ready = false
       this.api({
         bot_id: botID,
@@ -126,7 +123,7 @@ export const botLogic = {
       })
       .finally(()=>{
 
-      })
+      })*/
     }
   }
 }
