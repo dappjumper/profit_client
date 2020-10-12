@@ -60,6 +60,7 @@ export default {
   name: 'BotDetailPage',
   layout: 'app',
   mixins: [botLogic],
+  props: ['user'],
   mounted () {
     this.loadBot(this.$route.params.bot)
   }

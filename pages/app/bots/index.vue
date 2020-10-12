@@ -19,9 +19,10 @@
 
 <script>
 
-  import { mapMutations, mapState } from 'vuex'
   import AddBotForm from './../../../components/AddBotForm'
   import BotListItem from './../../../components/BotListItem'
+
+import { mapState } from 'vuex'
 
   export default {
     name: 'DashBots',
@@ -31,10 +32,7 @@
       BotListItem
     },
     computed: {
-      ...mapState('user',['user'])
-    },
-    methods: {
-      ...mapMutations('user', ['forgetUser'])
+      ...mapState('user', ['user'])
     }
   }
 </script>

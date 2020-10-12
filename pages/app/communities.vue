@@ -9,16 +9,13 @@
 
 <script>
 
-  import { mapMutations, mapState } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'DashCommunities',
     layout: 'app',
     computed: {
-      ...mapState('user',['user'])
-    },
-    methods: {
-      ...mapMutations('user', ['forgetUser'])
+      ...mapState('user', ['user'])
     }
   }
 </script>

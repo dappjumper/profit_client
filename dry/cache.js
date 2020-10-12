@@ -6,6 +6,7 @@ let cache = {
 }
 
 cache.boot = function() {
+  if(cache.metadata) return false //Safely call this many times without ill effects
   const metadata = localStorage.getItem(cache.index)
   cache.metadata = (typeof metadata !== 'object' ? JSON.parse(metadata) : new Object())
 }
@@ -18,12 +19,12 @@ cache.load = function(groupIndex, childIndex, expiryInMinutes = cache.defaults.e
 }
 
 cache.save = function(groupIndex, childIndex, childData) {
-  const group = cache.metadata[groupIndex] || new Object()
+  cache.metadata[groupIndex] = cache.metadata[groupIndex] || new Object()
   const child = {
     timestamp: new Date().getTime(),
     index: `cache_${groupIndex}_${childIndex}`
   }
-  group[childIndex] = child
+  cache.metadata[groupIndex][childIndex] = child
   localStorage.setItem(child.index, JSON.stringify(childData))
   localStorage.setItem(cache.index, JSON.stringify(cache.metadata))
 }

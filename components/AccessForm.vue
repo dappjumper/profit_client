@@ -50,7 +50,9 @@
 </template>
 <script>
 
-  import { mapActions } from 'vuex'
+  import api from './../dry/api.js'
+
+  import { mapMutations } from 'vuex'
 
   export default {
     name: 'AccessForm',
@@ -71,34 +73,36 @@
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ]
     }),
+    mounted () {
+      api.boot({
+        handler: this.$axios
+      })
+    },
     methods: {
-      ...mapActions('user', ['tryAccess']),
+      ...mapMutations('user', ['set']),
       submit () {
-        if(!this.validate()) return false
+        if(!api.handler) api.handler = this.$axios
+        if(!this.$refs.form.validate()) return false
         this.loading = true
-        this.tryAccess({
-          email: this.email,
-          password: this.password,
-          type: this.type
+        api.user({
+          method: 'post',
+          data: {
+            email: this.email,
+            password: this.password
+          },
+          path: this.type
         })
-          .then(()=>{
-            this.$router.push('/app')
-          })
-          .catch((e)=>{
-            this.loading = false
-            this.error = true
-            this.errorString = e
-          })
-      },
-      validate () {
-        return this.$refs.form.validate()
-      },
-      reset () {
-        return this.$refs.form.reset()
-      },
-      resetValidation () {
-        return this.$refs.form.resetValidation()
-      },
+        .then((result)=>{
+          if(!result.ok) throw result.error
+          this.set(result)
+          this.$router.push('/app')
+        })
+        .catch((e)=>{
+          this.loading = false
+          this.error = true
+          this.errorString = e
+        })
+      }
     },
   }
 </script>

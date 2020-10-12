@@ -33,6 +33,8 @@
 </template>
 <script>
 
+import api from './../dry/api.js'
+
   import { mapActions, mapMutations } from 'vuex'
 
   export default {
@@ -49,13 +51,12 @@
       ]
     }),
     methods: {
-      ...mapMutations('user', ['addBot']),
-      ...mapActions('user', ['tryJWT']),
+      ...mapMutations('user', ['addToSet']),
       submit () {
         if(!this.$refs.form.validate()) return false
         this.loading = true
-        this.tryJWT({
-          url: 'user/bot',
+        api.user({
+          path: 'bot',
           method: 'put',
           data: {
             token: this.token
@@ -67,9 +68,11 @@
               this.error = true
               return this.errorString = result.data.error
             }
-            this.addBot(result.data.bot_id)
+            this.addToSet({
+              key: bots,
+              data: result.data.bot_id
+            })
             this.$refs.form.reset()
-            //this.$router.push(`/app/bots/${result.data.bot_id}`)
           })
           .catch((e)=>{
             this.loading = false
