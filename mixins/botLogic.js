@@ -8,6 +8,9 @@ export const botLogic = {
       ready: false,
       errorFor: {
         bot: null
+      },
+      loading: {
+        active: false
       }
     }
   },
@@ -19,6 +22,9 @@ export const botLogic = {
     this.fetchBot(this.botID)
   },
   methods: {
+    save(botID) {
+      cache.save('bot', botID, this.bot)
+    },
     fetchBot(botID) {
       this.ready = false
       api.bot({
@@ -32,6 +38,29 @@ export const botLogic = {
       })
       .catch((error)=>{
         this.errorFor.bot = error
+      })
+    },
+    setActivation(botID, state) {
+      this.loading.active = true
+      api.bot({
+        botID,
+        path: 'activation',
+        method: 'patch',
+        data: {
+          state
+        }
+      })
+      .then((result)=>{
+        if(typeof result.state !== 'undefined') {
+          this.bot.active = result.state
+          this.save(this.botID)
+        }
+      })
+      .catch(()=>{
+
+      })
+      .finally(()=>{
+        this.loading.active = false
       })
     }
   }
