@@ -3,10 +3,7 @@ import cache from './../dry/cache.js'
 
 import { mapState, mapMutations } from 'vuex'
 
-const base = (path) => {
-  if (window.location.hostname === 'localhost') return 'http://localhost:8000'+path
-  return 'https://profit-server.hostman.site'+path
-}
+
 
 export const userLogic = {
   data () {
@@ -21,10 +18,7 @@ export const userLogic = {
       if(!cache.metadata) cache.boot()
       if(!api.token) api.boot({
         handler: this.$axios,
-        token: cache.load('user', 'token', 43800),
-        BOT_API: base('/bot'),
-        USER_API: base('/user'),
-        TELEGRAM_API: process.env.TELEGRAM_API,
+        token: cache.load('user', 'token', 43800)
       })
       if(!api.token) return this.$router.push('/login')
       this.fetchUser()

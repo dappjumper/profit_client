@@ -1,12 +1,13 @@
+const base = (path) => {
+  if (window.location.hostname === 'localhost') return 'http://localhost:8000'+path
+  return 'https://profit-server.hostman.site'+path
+}
+
 const api = {
   app: null,
   token: null,
   handler: null,
-  server: {
-    user:     '',
-    bot:      '',
-    telegram: ''
-  },
+  server: {},
   headers: function() {
     return (api.token ? {
       headers: {
@@ -19,9 +20,11 @@ const api = {
 api.boot = function({ handler, token, USER_API, BOT_API, TELEGRAM_API }) {
   api.handler = handler
   api.token   = token
-  api.server.user = USER_API || api.server.user
-  api.server.bot = BOT_API || api.server.bot
-  api.server.telegram = TELEGRAM_API || api.server.telegram
+  api.server = {
+    user:     base('/user'),
+    bot:      base('/bot'),
+    telegram: 'https://api.telegram.org/bot'
+  }
 }
 
 api.computed = {
