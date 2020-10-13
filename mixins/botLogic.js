@@ -17,7 +17,7 @@ export const botLogic = {
   props: ['botID'],
   beforeMount () {
     if (!this.botID) return this.errorFor.bot = 'No bot ID specified'
-    this.bot = cache.load('bot', this.botID, 10)
+    this.bot = cache.load('bot', this.botID, 1)
     if (this.bot) return this.ready = true
     this.fetchBot(this.botID)
   },
@@ -42,6 +42,7 @@ export const botLogic = {
     },
     setActivation(botID, state) {
       this.loading.active = true
+      console.log(api.server)
       api.bot({
         botID,
         path: 'activation',
