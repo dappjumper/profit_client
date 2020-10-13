@@ -103,6 +103,7 @@
         .catch((e)=>{
           if(this.attempts < 5) {
             return setTimeout(()=>{
+              this.attempts++;
               this.submit()
             }, 500)
           }
