@@ -16,8 +16,11 @@
         <v-card-subtitle>@{{bot.t_info.username}}</v-card-subtitle>
         <v-card-text>{{ bot.active ? 'This bot is active.' : 'This bot is not active.'}}</v-card-text>
         <v-card-actions>
-          <v-btn :loading="loading.active" :disabled="loading.active" @click="setActivation(botID, (bot.active ? false : true))">
+          <v-btn :loading="loading.active" :disabled="loading.active" @click="setActivation(bot.active ? false : true)">
             {{bot.active ? 'De-activate' : 'Activate'}}
+          </v-btn>
+          <v-btn link :to="'/app/bots/'+botID">
+            Settings
           </v-btn>
         </v-card-actions>
       </div>

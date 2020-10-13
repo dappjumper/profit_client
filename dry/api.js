@@ -3,9 +3,9 @@ const api = {
   token: null,
   handler: null,
   server: {
-    user:     process.env.USER_API || 'http://localhost:8000/user',
-    bot:      process.env.BOT_API || 'http://localhost:8000/bot',
-    telegram: process.env.TELEGRAM_API || 'https://api.telegram.org/bot'
+    user:     '',
+    bot:      '',
+    telegram: ''
   },
   headers: function() {
     return (api.token ? {
@@ -25,7 +25,7 @@ api.boot = function({ handler, token, USER_API, BOT_API, TELEGRAM_API }) {
 }
 
 api.computed = {
-  bot: function(botID, path) { return `${api.server.bot}/${botID}${(path ? `/${path}` : '')}`},
+  bot: function(botID, path) { return `${api.server.bot}${botID ? `/${botID}` : ''}${(path ? `/${path}` : '')}`},
   telegram: function(botToken, path) { return `${api.server.telegram}${botToken}${path ? `/${path}` : ''}` },
   user: function(path) { return `${api.server.user}${path ? `/${path}` : ''}` }
 }

@@ -75,7 +75,8 @@
     }),
     mounted () {
       api.boot({
-        handler: this.$axios
+        handler: this.$axios,
+        USER_API: process.env.USER_API
       })
     },
     methods: {
