@@ -16,7 +16,10 @@ export const userLogic = {
       if(!cache.metadata) cache.boot()
       if(!api.token) api.boot({
         handler: this.$axios,
-        token: cache.load('user', 'token', 43800)
+        token: cache.load('user', 'token', 43800),
+        API_BOT: process.env.BOT_API,
+        API_USER: process.env.USER_API,
+        API_TELEGRAM: process.env.TELEGRAM_API,
       })
       if(!api.token) return this.$router.push('/login')
       this.fetchUser()

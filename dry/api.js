@@ -16,9 +16,12 @@ const api = {
   }
 }
 
-api.boot = function({ handler, token }) {
+api.boot = function({ handler, token, USER_API, BOT_API, TELEGRAM_API }) {
   api.handler = handler
   api.token   = token
+  api.server.user = USER_API || api.server.user
+  api.server.bot = USER_BOT || api.server.bot
+  api.server.telegram = USER_TELEGRAM || api.server.telegram
 }
 
 api.computed = {
