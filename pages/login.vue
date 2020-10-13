@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Project Finch - Login</h1>
+    <h1>Project Finch - {{ userApi }}</h1>
     <AccessForm type="login"/>
   </div>
 </template>
@@ -14,6 +14,11 @@ export default {
   layout: 'landing',
   components: {
     AccessForm
+  },
+  data () {
+    return {
+      userApi: process.env.USER_API
+    }
   },
   mounted () {}
 }

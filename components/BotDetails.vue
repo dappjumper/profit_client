@@ -49,7 +49,7 @@
       <div v-if="bot.modules[module.id]">
         <v-card-text v-if="bot.modules[module.id].active">
           <div v-for="option in module.options">
-            <v-checkbox @change="setModule(module.id, {[option.id]: bot.modules[module.id][option.name]})" v-model="bot.modules[module.id][option.name]" :label="option.name"/>
+            <v-checkbox @change="setModule(module.id, {[option.id]: bot.modules[module.id][option.id]})" v-model="bot.modules[module.id][option.id]" :label="option.name"/>
           </div>
         </v-card-text>
         <v-card-actions>

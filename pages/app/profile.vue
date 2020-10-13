@@ -2,7 +2,7 @@
   <section>
     <h1>Profile</h1>
     <pre>{{user}}</pre>
-    <v-btn color="red" dark>Log out</v-btn>
+    <v-btn color="red" @click="logout()" dark>Log out</v-btn>
   </section>
 </template>
 
@@ -15,6 +15,12 @@
     layout: 'app',
     computed: {
       ...mapState('user', ['user'])
+    },
+    methods: {
+      logout () {
+        localStorage.clear()
+        window.location.href="/login"
+      }
     }
   }
 </script>
