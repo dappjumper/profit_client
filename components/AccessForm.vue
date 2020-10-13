@@ -95,7 +95,7 @@
           path: this.type
         })
         .then((result)=>{
-          this.attempts = true
+          this.attempts = 0
           if(!result.ok) throw result.error
           this.set(result)
           this.$router.push('/app')

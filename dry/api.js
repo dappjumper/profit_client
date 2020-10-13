@@ -28,9 +28,9 @@ api.boot = function({ handler, token, USER_API, BOT_API, TELEGRAM_API }) {
 }
 
 api.computed = {
-  bot: function(botID, path) { return `${api.server.bot}${botID ? `/${botID}` : ''}${(path ? `/${path}` : '')}`},
+  bot: function(botID, path) { return `${base('/bot')}${botID ? `/${botID}` : ''}${(path ? `/${path}` : '')}`},
   telegram: function(botToken, path) { return `${api.server.telegram}${botToken}${path ? `/${path}` : ''}` },
-  user: function(path) { return `${api.server.user}${path ? `/${path}` : ''}` }
+  user: function(path) { return `${base('/user')}${path ? `/${path}` : ''}` }
 }
 
 api.call = function({ url, method, data }) {
