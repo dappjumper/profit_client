@@ -58,6 +58,7 @@
     name: 'AccessForm',
     props: ['type'],
     data: () => ({
+      attempts: 0,
       loading: false,
       valid: true,
       error: false,
@@ -94,11 +95,17 @@
           path: this.type
         })
         .then((result)=>{
+          this.attempts = true
           if(!result.ok) throw result.error
           this.set(result)
           this.$router.push('/app')
         })
         .catch((e)=>{
+          if(this.attempts < 5) {
+            return setTimeout(()=>{
+              this.submit()
+            }, 500)
+          }
           this.loading = false
           this.error = true
           this.errorString = e
