@@ -26,6 +26,19 @@ export const botLogic = {
     this.fetchBot(this.botID)
   },
   methods: {
+    getModuleOptions (module) {
+      this.bot.modules = this.bot.modules || {}
+      this.bot.modules[module.id] = this.bot.modules[module.id] || {}
+      for(let i = 0; i<module.options.length; i++) {
+        this.bot.modules[module.id][module.options[i].id] = this.getOptionValue(module, module.options[i])
+      }
+      return module.options
+    },
+    getOptionValue (module, option) {
+      if (typeof this.bot.modules == 'undefined') return option.default
+      if (typeof this.bot.modules[module.id] == 'undefined') return option.default
+      return (typeof this.bot.modules[module.id][option.id] == 'undefined' ? option.default : this.bot.modules[module.id][option.id])
+    },
     save(botID) {
       cache.save('bot', botID, this.bot)
     },
@@ -79,20 +92,20 @@ export const botLogic = {
       if(loadThese.length) this.fetchLazy(loadThese)
     },
     setModule(mod, data) {
-      this.loading = Object.assign({}, this.loading, { ['module_'+mod]: true })
+      this.loading = Object.assign({}, this.loading, { ['module_'+mod.id]: true })
       api.bot({
         botID: this.botID,
         path: 'module',
         method: 'patch',
         data: {
-          module: mod,
+          module: mod.id,
           data
         }
       })
       .then((result)=>{
         this.bot.modules = this.bot.modules || {}
         for(let [key, value] of Object.entries(result)) {
-          this.$set(this.bot.modules[mod], key, value);
+          this.$set(this.bot.modules[mod.id], key, value);
         }
         this.save(this.botID)
       })
@@ -100,7 +113,7 @@ export const botLogic = {
 
       })
       .finally(()=>{
-        this.loading['module_'+mod] = false
+        this.loading['module_'+mod.id] = false
       })
     },
     setActivation(state) {
