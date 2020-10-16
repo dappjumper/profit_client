@@ -57,23 +57,25 @@
   export default {
     name: 'AccessForm',
     props: ['type'],
-    data: () => ({
-      attempts: 0,
-      loading: false,
-      valid: true,
-      error: false,
-      errorString: '',
-      password: '',
-      passwordRules: [
-        v => !!v || 'Password is required',
-        v => (v && v.length >= 4) || 'Password must be at least 4 characters',
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ]
-    }),
+    data () {
+      return {
+        attempts: 0,
+        loading: false,
+        valid: true,
+        error: false,
+        errorString: '',
+        password: '',
+        passwordRules: [
+          v => !!v || 'Password is required',
+          v => (v && v.length >= 4) || 'Password must be at least 4 characters',
+        ],
+        email: '',
+        emailRules: [
+          v => !!v || 'E-mail is required',
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ]
+      }
+    },
     mounted () {
       api.boot({
         handler: this.$axios,
