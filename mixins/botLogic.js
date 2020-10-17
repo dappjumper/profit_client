@@ -18,7 +18,7 @@ export const botLogic = {
   props: ['botID'],
   beforeMount () {
     if (!this.botID) return this.errorFor.bot = 'No bot ID specified'
-    this.bot = cache.load('bot', this.botID, 1)
+    this.bot = cache.load('bot', this.botID, 0)
     if (this.bot) {
       this.fetchAdditional()
       return this.ready = true
@@ -67,19 +67,21 @@ export const botLogic = {
     fetchLazy(array) {
       let current = array.pop()
       if(!current) return false
-      const lazyCached = cache.load('lazy', current, 1)
+      const lazyCached = cache.load('lazy', current, 0)
       if(lazyCached) {
         this.setLazy(current, lazyCached)
         return this.fetchLazy(array)
       }
-      api.bot({
+      api.basic({
         method: 'get',
         path: current
       })
       .then((result)=>{
         this.setLazy(current, result)
       })
-      .catch((e)=>{})
+      .catch((e)=>{
+        console.log(e)
+      })
       .finally(()=>{
         this.fetchLazy(array)
       })
@@ -95,10 +97,9 @@ export const botLogic = {
       this.loading = Object.assign({}, this.loading, { ['module_'+mod.id]: true })
       api.bot({
         botID: this.botID,
-        path: 'module',
+        path: mod.id,
         method: 'patch',
         data: {
-          module: mod.id,
           data
         }
       })
@@ -109,31 +110,33 @@ export const botLogic = {
         }
         this.save(this.botID)
       })
-      .catch(()=>{
-
+      .catch((e)=>{
+        console.log(e, 'some error')
       })
       .finally(()=>{
         this.loading['module_'+mod.id] = false
       })
     },
-    setActivation(state) {
+    setActivation() {
       this.loading.active = true
       api.bot({
         botID: this.botID,
-        path: 'activation',
+        path: '',
         method: 'patch',
         data: {
-          state
+          data: {
+            active: !this.bot.active
+          }
         }
       })
       .then((result)=>{
-        if(typeof result.state !== 'undefined') {
-          this.bot.active = result.state
+        if(typeof result.active !== 'undefined') {
+          this.bot.active = result.active
           this.save(this.botID)
         }
       })
-      .catch(()=>{
-
+      .catch((e)=>{
+        console.log(e)
       })
       .finally(()=>{
         this.loading.active = false

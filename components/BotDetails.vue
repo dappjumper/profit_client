@@ -28,7 +28,7 @@
           </p>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="setActivation(!bot.active)" :dark="!bot.active" :disabled="loading.active" :loading="loading.active">
+          <v-btn @click="setActivation(!bot.active)" :dark="!bot.active && !loading.active" :disabled="loading.active" :loading="loading.active">
             {{ bot.active ? 'De-activate' : 'Activate' }}
           </v-btn>
         </v-card-actions>
@@ -38,9 +38,41 @@
         <v-card-text>Loading...</v-card-text>
       </v-card>
       <div v-else>
-        <v-card :key="module.id" v-for="module in extras.modules">
+        <v-card :loading="loading['module_'+module.id]" :disabled="loading['module_'+module.id]" :key="module.id" v-for="module in extras.modules">
           <v-card-title>{{ module.name }}</v-card-title>
-          <v-card-subtitle>{{ module.description }}</v-card-subtitle>
+          <v-card-subtitle>
+            <div>{{ module.description }}</div>
+            <div v-if="module.slots">
+              <v-chip
+                :key="'module_'+module.id+'_slot_'+slot"
+                v-for="slot in module.slots"
+                class="mr-2"
+                color="grey"
+                label
+                text-color="white"
+              >
+                <v-icon left v-if="slot == 'group'">
+                  mdi-account-multiple
+                </v-icon>
+                <v-icon left v-else-if="slot == 'private'">
+                  mdi-account
+                </v-icon>
+                <v-icon left v-else-if="slot == 'channel'">
+                  mdi-bullhorn
+                </v-icon>
+                <v-icon left v-else-if="slot == 'inline'">
+                  mdi-text-short
+                </v-icon>
+                <v-icon left v-else-if="slot == 'callback'">
+                  mdi-gesture-tap-button
+                </v-icon>
+                <v-icon left v-else>
+                  mdi-help
+                </v-icon>
+                {{slot}}
+              </v-chip>
+            </div>
+          </v-card-subtitle>
           <div>
             <v-card-text>
               <div :key="module.id+'_'+option.id" v-for="option in getModuleOptions(module)">
@@ -53,8 +85,8 @@
               </div>
             </v-card-text>
             <v-card-actions>
-              <v-btn :dark="getOptionValue(module, { id: 'active', default: false })" @click="setModule(module, { active: !getOptionValue(module, { id: 'active', default: false }) })">
-                {{ getOptionValue(module, { id: 'active', default: false }) ? 'Enable' : 'Disable' }}
+              <v-btn :dark="!getOptionValue(module, { id: 'active', default: false })" @click="setModule(module, { active: !getOptionValue(module, { id: 'active', default: false }) })">
+                {{ !getOptionValue(module, { id: 'active', default: false }) ? 'Enable' : 'Disable' }}
               </v-btn>
             </v-card-actions>
           </div>

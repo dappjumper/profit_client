@@ -60,6 +60,22 @@ api.bot = function({ botID, method, data, path }) {
   })
 }
 
+api.bot = function({ botID, method, data, path }) {
+  return api.call({
+    url: api.computed.bot(botID, path),
+    method,
+    data
+  })
+}
+
+api.basic = function({ method, data, path }) {
+  return api.call({
+    url: base('/'+path),
+    method,
+    data
+  })
+}
+
 api.user = function({ method, data, path }) {
   return api.call({
     url: api.computed.user(path),
