@@ -16,9 +16,6 @@ export default {
     botID () {
       return this.$route.params.bot
     }
-  },
-  components: {
-    BotDetails
   }
 }
 </script>
