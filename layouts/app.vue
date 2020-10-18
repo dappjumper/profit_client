@@ -31,6 +31,7 @@ export default {
   },
   beforeMount () {
     this.boot()
+    cache.boot()
   }
 }
 </script>
