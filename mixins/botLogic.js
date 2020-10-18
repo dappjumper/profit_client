@@ -19,7 +19,7 @@ export const botLogic = {
   mounted () {
     cache.boot()
     if (!this.botID) return this.errorFor.bot = 'No bot ID specified'
-    this.bot = cache.load('bot', this.botID, 0)
+    this.bot = cache.load('bot', this.botID, 5)
     if (this.bot) {
       this.fetchAdditional()
       return this.ready = true
@@ -27,6 +27,10 @@ export const botLogic = {
     this.fetchBot(this.botID)
   },
   methods: {
+    selectBot (botID) {
+      this.$router.push('/app/bots/#'+botID)
+      this.$emit('detail', botID)
+    },
     getModuleOptions (module) {
       this.bot.modules = this.bot.modules || {}
       this.bot.modules[module.id] = this.bot.modules[module.id] || {}

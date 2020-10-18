@@ -19,7 +19,7 @@
           <v-btn :loading="loading.active" :disabled="loading.active" @click="setActivation(bot.active ? false : true)">
             {{bot.active ? 'De-activate' : 'Activate'}}
           </v-btn>
-          <v-btn link :to="'/app/bots/#'+botID">
+          <v-btn link @click="selectBot(botID)">
             Settings
           </v-btn>
         </v-card-actions>
