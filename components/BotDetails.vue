@@ -1,17 +1,7 @@
 <template>
-  <div>
-    <div v-if="ready && bot">
-      <pre>
-        {{ bot }}
-      </pre>
-    </div>
-    <v-card v-else>
-      Loading...
-    </v-card>
-    <v-btn dark class="mt-4" link to="/app/bots">
-      Back to bots list
-    </v-btn>
-  </div>
+  <pre>
+    {{ bot }}
+  </pre>
 </template>
 
 <style scoped>
