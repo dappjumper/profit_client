@@ -1,6 +1,6 @@
 const base = (path) => {
   if (window.location.hostname === 'localhost') return 'http://localhost:8000'+path
-  return 'https://profit-server.hostman.site'+path
+  return 'https://projectfinchapi.andersen.work'+path
 }
 
 const api = {
