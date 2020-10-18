@@ -17,6 +17,7 @@ export const botLogic = {
   },
   props: ['botID'],
   beforeMount () {
+    cache.boot()
     if (!this.botID) return this.errorFor.bot = 'No bot ID specified'
     this.bot = cache.load('bot', this.botID, 0)
     if (this.bot) {

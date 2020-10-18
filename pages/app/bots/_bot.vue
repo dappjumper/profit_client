@@ -1,6 +1,6 @@
 <template>
   <section>
-    <BotDetails v-if="ready" :botID="$route.params.bot"/>
+    <BotDetails :botID="botID"/>
   </section>
 </template>
 
@@ -11,17 +11,13 @@ import BotDetails from './../../../components/BotDetails'
 export default {
   name: 'BotDetailPage',
   layout: 'app',
-  data () {
-    return {
-      ready: false
+  computed: {
+    botID () {
+      return this.$route.params.bot
     }
   },
   components: {
     BotDetails
-  },
-  mounted () {
-    this.ready = true
-    console.log(this.$route.params.bot)
   }
 }
 </script>
