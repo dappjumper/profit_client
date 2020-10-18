@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <v-container>
     <BotDetails :botID="botID"/>
-  </section>
+  </v-container>
 </template>
 
 <script>
