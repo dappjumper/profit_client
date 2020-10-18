@@ -29,9 +29,8 @@ export default {
     SideBar,
     Error
   },
-  beforeMount () {
+  mounted () {
     this.boot()
-    cache.boot()
   }
 }
 </script>
