@@ -4,6 +4,8 @@ const base = (path) => {
 }
 
 const api = {
+  maxAttempts: 5,
+  attemptInterval: 500,
   app: null,
   token: null,
   handler: null,
@@ -33,7 +35,7 @@ api.computed = {
   user: function(path) { return `${base('/user')}${path ? `/${path}` : ''}` }
 }
 
-api.call = function({ url, method, data }) {
+api.call = function({ url, method, data, attempts }) {
   return new Promise(function(resolve, reject) {
     api.handler({
       method,
@@ -47,6 +49,7 @@ api.call = function({ url, method, data }) {
       resolve(result.data.data || result.data)
     })
     .catch((error)=>{
+      if((typeof attempts == 'undefined' ? 0 : attempts) >= api.maxAttempts) return api.call({ url, method, data, attempts: (typeof attempts == 'undefined' ? 0 : attempts)+1})
       reject('Network error')
     })
   })
