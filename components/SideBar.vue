@@ -4,14 +4,11 @@
         permanent
   >
     <v-list
-      class="pt-0"
+      style="margin-top:64px; padding-top:0"
     >
-      <v-list-item to="/" class="px-4 py-4" style="text-align:left;">
-          <img style="width:auto; max-height:40px; display:inline-block;" src="~assets/logo.svg"></img>
-      </v-list-item>
       <v-list-item exact-active-class="none" link to="/app/profile">
         <v-list-item-content>
-          <v-list-item-title class="title">
+          <v-list-item-title class="title pt-4 mt-0">
             {{user.email}}
           </v-list-item-title>
           <v-list-item-subtitle>{{user.id}}</v-list-item-subtitle>

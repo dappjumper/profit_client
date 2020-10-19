@@ -1,12 +1,15 @@
 <template>
   <v-app style="background:rgb(240,240,240);" id="inspire">
     <div v-if="ready">
-      <v-app-bar style="margin-left:256px;" dark>
+      <v-app-bar style="z-index:9; position:fixed;" dark>
+        <a style="width:240px; margin-right:16px" @click="$router.push('/')">
+          <img style="width:auto; max-height:40px; display:inline-block;" src="~assets/logo_white.svg"></img>
+        </a>
         <v-toolbar-title style="text-transform: capitalize;">{{ page }}</v-toolbar-title>
       </v-app-bar>
-      <v-main>
+      <v-main style="margin-top:64px;">
         <SideBar/>
-        <nuxt class="px-8 py-4"/>
+        <nuxt class="px-0 py-0"/>
       </v-main>
     </div>
     <div v-else>
