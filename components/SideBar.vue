@@ -29,6 +29,12 @@
         </v-list-item-icon>
         <v-list-item-title>Bots</v-list-item-title>
       </v-list-item>
+      <v-list-item link to="/app/billing">
+        <v-list-item-icon>
+          <v-icon>mdi-cash</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Billing</v-list-item-title>
+      </v-list-item>
       <v-list-item link to="/app/communities">
         <v-list-item-icon>
           <v-icon>mdi-account-multiple</v-icon>

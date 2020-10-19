@@ -49,7 +49,12 @@ api.call = function({ url, method, data, attempts }) {
       resolve(result.data.data || result.data)
     })
     .catch((error)=>{
-      if((typeof attempts == 'undefined' ? 0 : attempts) >= api.maxAttempts) return api.call({ url, method, data, attempts: (typeof attempts == 'undefined' ? 0 : attempts)+1})
+      console.log(error, url, method, data, attempts)
+      if((typeof attempts == 'undefined' ? 0 : attempts) >= api.maxAttempts) {
+        return setTimeout(()=>{
+          api.call({ url, method, data, attempts: (typeof attempts == 'undefined' ? 0 : attempts)+1})
+        }, api.attemptInterval)
+      }
       reject('Network error')
     })
   })

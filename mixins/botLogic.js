@@ -28,7 +28,7 @@ export const botLogic = {
   },
   methods: {
     selectBot (botID) {
-      this.$router.push('/app/bots/#'+botID)
+      this.$router.push(this.$route.path+'/#'+botID)
       this.$emit('detail', botID)
     },
     getModuleOptions (module) {
