@@ -69,7 +69,7 @@ import api from './../dry/api.js'
               return this.errorString = result.data.error
             }
             this.addToSet({
-              key: bots,
+              key: 'bots',
               data: result.data.bot_id
             })
             this.$refs.form.reset()
