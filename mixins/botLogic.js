@@ -11,7 +11,8 @@ export const botLogic = {
         bot: null
       },
       loading: {
-        active: false
+        active: false,
+        forget: false
       }
     }
   },
@@ -27,6 +28,22 @@ export const botLogic = {
     this.fetchBot(this.botID)
   },
   methods: {
+    forgetBot (botID) {
+      this.loading.forget = true
+      api.user({
+        path: 'bot/'+botID,
+        method: 'delete'
+      })
+      .then((result)=>{
+        this.$store.commit('user/removeFromSet', {
+          key: 'bots',
+          data: botID
+        })
+      })
+      .catch((error)=>{
+        this.loading.forget = true
+      })
+    },
     selectBot (botID) {
       this.$router.push(this.$route.path+'/#'+botID)
       this.$emit('detail', botID)

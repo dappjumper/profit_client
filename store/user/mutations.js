@@ -9,8 +9,13 @@ export default {
   },
   addToSet(state, payload) {
     for(let i = 0; i<state.user[payload.key].length; i++) {
-      if (state.user[payload.key]) return false
+      if (state.user[payload.key][i] == payload.key) return false
     }
     state.user[payload.key].push(payload.data)
+  },
+  removeFromSet(state, payload) {
+    for(let i = 0; i<state.user[payload.key].length; i++) {
+      if (state.user[payload.key][i] == payload.data) return state.user[payload.key].splice(i, 1)
+    }
   }
 }

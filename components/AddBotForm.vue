@@ -64,13 +64,13 @@ import api from './../dry/api.js'
         })
           .then((result)=>{
             this.loading = false
-            if(!result.data.ok) {
+            if(!result.ok) {
               this.error = true
-              return this.errorString = result.data.error
+              return this.errorString = result.error
             }
             this.addToSet({
               key: 'bots',
-              data: result.data.bot_id
+              data: result.bot_id
             })
             this.$refs.form.reset()
           })

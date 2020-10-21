@@ -3,6 +3,7 @@
     color="secondary"
     dark
     class="mb-4"
+    :disabled="loading.forget"
   >
     <div class="d-flex flex-no-wrap justify-space-between">
       <div v-if="!ready">
@@ -29,6 +30,9 @@
           </v-btn>
           <v-btn link @click="selectBot(botID)">
             Settings
+          </v-btn>
+          <v-btn link :loading="loading.forget" @click="forgetBot(botID)">
+            Forget
           </v-btn>
         </v-card-actions>
       </div>
