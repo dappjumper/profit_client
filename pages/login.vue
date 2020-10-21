@@ -15,6 +15,5 @@ export default {
   components: {
     AccessForm
   },
-  mounted () {}
 }
 </script>

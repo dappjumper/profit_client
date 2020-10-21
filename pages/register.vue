@@ -14,7 +14,6 @@ export default {
   layout: 'landing',
   components: {
     AccessForm
-  },
-  mounted () {}
+  }
 }
 </script>

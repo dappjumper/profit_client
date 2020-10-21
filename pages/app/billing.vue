@@ -1,58 +1,41 @@
 <template>
-  <div v-if="view == 'list'">
-    <v-container>
-      <v-row dense>
-        <v-col
-          cols="12"
+  <v-container class="mt-4 ml-4">
+    <v-row dense>
+      <v-col
+        cols="12"
+      >
+        <v-card
+        class="mb-4 px-3 py-3"
         >
-          <BotListItem :botID="bot" :key="bot" v-for="bot in user.bots" />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-  <div v-else>
-    <v-container>
-      <v-row dense>
-        <v-col
-          cols="12"
-        >
-          <BotDetails :botID="detailBot" :key="'detail_'+detailBot" />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+          You have {{ user.tokens }} Tokens
+        </v-card>
+        <v-btn @click="openDialog = true">Buy more</v-btn>
+      </v-col>
+    </v-row>
+    <v-dialog width="500" v-model="openDialog">
+      <ShopInterface />
+    </v-dialog>
+  </v-container>
 </template>
 
 <script>
 
-  import AddBotForm from './../../components/AddBotForm'
-  import BotListItem from './../../components/BotListItem'
-  import BotDetails from './../../components/BotDetails'
-
 import { mapState } from 'vuex'
+import ShopInterface from './../../components/ShopInterface'
 
   export default {
     name: 'DashBilling',
     layout: 'app',
+    components: {
+      ShopInterface
+    },
     data () {
       return {
-        detailBot: null
+        openDialog: null
       }
-    },
-    components: {
-      AddBotForm,
-      BotListItem,
-      BotDetails
     },
     computed: {
-      ...mapState('user', ['user']),
-      view () {
-        if (this.$route.hash) {
-          this.detailBot = this.$route.hash.replace('#','')
-          return 'detail'
-        }
-        return 'list'
-      }
+      ...mapState('user', ['user'])
     }
   }
 </script> 

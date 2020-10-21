@@ -51,6 +51,7 @@
 <script>
 
   import api from './../dry/api.js'
+  import cache from './../dry/cache.js'
 
   import { mapMutations } from 'vuex'
 
@@ -78,9 +79,12 @@
     },
     mounted () {
       api.boot({
-        handler: this.$axios,
-        USER_API: process.env.USER_API
+        handler: this.$axios
       })
+      if(!cache.metadata) cache.boot()
+      if(cache.load('user', 'token', 19932020)) {
+        this.$router.push('/app')
+      }
     },
     methods: {
       ...mapMutations('user', ['set']),
